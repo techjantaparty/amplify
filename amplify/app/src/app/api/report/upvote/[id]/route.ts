@@ -1,5 +1,6 @@
 import { ReportModel } from "@/models/Report";
 import { connectDB } from "@/utils/db";
+import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(req: NextRequest) {
@@ -9,45 +10,66 @@ export async function PATCH(req: NextRequest) {
     const url = new URL(req.url);
     const id = url.pathname.split("/")[4];
     const { userAddress } = await req.json();
-    // check if like already exists
 
-    const existingLike = await ReportModel.findOne({
-      _id: id,
-      upvotes: userAddress,
-    });
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json(
+        { message: "Invalid Report ID", success: false },
+        { status: 400 }
+      );
+    }
 
-    if (existingLike) {
+    // First, get the current report to check its state
+    const report = await ReportModel.findById(id);
+
+    if (!report) {
+      return NextResponse.json(
+        { message: "Report not found", success: false },
+        { status: 404 }
+      );
+    }
+
+    const hasUpvoted = report.upvotes.includes(userAddress);
+
+    // Update based on current state
+    if (hasUpvoted) {
+      // Remove upvote if already upvoted
       await ReportModel.findByIdAndUpdate(id, {
         $pull: { upvotes: userAddress },
       });
     } else {
-      await ReportModel.updateOne(
-        { _id: id },
-        {
-          $push: { upvotes: userAddress },
-        }
-      );
+      // Add upvote if not already upvoted
+      await ReportModel.findByIdAndUpdate(id, {
+        $push: { upvotes: userAddress },
+      });
     }
 
+    // Always remove from downvotes regardless of upvote status
     await ReportModel.findByIdAndUpdate(id, {
       $pull: { downvotes: userAddress },
     });
 
+    // Get updated report for response
+    const updatedReport = await ReportModel.findById(id);
+
     return NextResponse.json(
-      { message: "Upvote successful", success: true },
+      {
+        message: hasUpvoted ? "Upvote removed" : "Upvote added",
+        success: true,
+        upvotes: updatedReport?.upvotes || [],
+        downvotes: updatedReport?.downvotes || [],
+      },
       { status: 200 }
     );
   } catch (error) {
-    if (error instanceof Error) {
-      return NextResponse.json(
-        { message: error.message, success: false },
-        { status: 500 }
-      );
-    } else {
-      return NextResponse.json(
-        { message: "Internal Server Error", success: false },
-        { status: 500 }
-      );
-    }
+    console.error("Error in upvote handler:", error);
+    return NextResponse.json(
+      {
+        message:
+          error instanceof Error ? error.message : "Internal Server Error",
+        success: false,
+      },
+      { status: 500 }
+    );
   }
 }

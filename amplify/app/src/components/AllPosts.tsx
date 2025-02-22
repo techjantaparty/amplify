@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PostItem from "./PostItem";
 import { LoaderIcon } from "react-hot-toast";
 import { Report } from "@/app/(protected)/report/[id]/page";
+import { useQuery } from "@tanstack/react-query";
 
 const AllPosts = () => {
-  const [reports, setReports] = useState<Report[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-
   /*async function getNFTitems() {
     const itemsArray = [];
     if (!signer) return;
@@ -38,54 +35,46 @@ const AllPosts = () => {
     return itemsArray as Post[];
   }*/
 
-  console.log(reports);
+  const {
+    isLoading,
+    isError,
+    status,
+    data: reports,
+  } = useQuery({
+    queryKey: ["reports"],
+    queryFn: async () => {
+      const res = await axios.get(`/api/report`);
 
-  useEffect(() => {
-    const fetchReports = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get("/api/report");
-        setReports(res.data.reports);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchReports();
-  }, []);
+      return res.data.reports as Report[];
+    },
+    staleTime: 1000 * 60 * 5,
+  });
 
-  /*useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const itemsArray = await getNFTitems();
-        setPosts(itemsArray || []);
-      } catch (error) {
-        console.error("Error fetching NFT items:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [isConnected]);*/
-
-  if (loading)
+  if (isLoading)
     return (
       <div className="col-span-2 w-full">
         <LoaderIcon className="size-8 text-white" />
       </div>
     );
 
-  return (
-    <div className="col-span-2 w-full">
-      <div className="flex gap-4 flex-wrap">
-        {reports.map((report) => {
-          return <PostItem report={report} key={report._id} />;
-        })}
+  if (!reports || reports.length === 0) {
+    return (
+      <div className="col-span-2 w-full">
+        <p className="text-white font-bold text-2xl">No reports found</p>
       </div>
-    </div>
+    );
+  }
+
+  return (
+    reports.length !== 0 && (
+      <div className="col-span-2 w-full">
+        <div className="flex gap-4 flex-wrap">
+          {reports?.map((report) => {
+            return <PostItem report={report} key={report._id} />;
+          })}
+        </div>
+      </div>
+    )
   );
 };
 

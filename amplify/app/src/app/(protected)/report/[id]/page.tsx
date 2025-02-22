@@ -1,7 +1,12 @@
+"use client";
+
 import ReportDetailsComponent from "@/components/Report";
-import { ReportModel } from "@/models/Report";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { LoaderIcon } from "react-hot-toast";
 
 export interface Report {
   _id: string;
@@ -13,19 +18,31 @@ export interface Report {
   downvotes: string[];
 }
 
-async function getReportById(id: string) {
-  const report = await ReportModel.findById(id);
-  if (!report) return null;
-  return report as Report;
-}
+const ReportDetails = () => {
+  const { id } = useParams();
 
-const ReportDetails = async ({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) => {
-  const id = (await params).id;
-  const report = await getReportById(id);
+  const {
+    isLoading,
+    isError,
+    status,
+    data: report,
+  } = useQuery({
+    queryKey: ["report", { id }],
+    queryFn: async () => {
+      const res = await axios.get(`/api/report/${id}`);
+
+      return res.data.report;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+
+  if (isLoading) {
+    return (
+      <div>
+        <LoaderIcon className="size-6 text-white" />
+      </div>
+    );
+  }
 
   if (!report) {
     return (

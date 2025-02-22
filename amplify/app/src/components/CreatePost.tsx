@@ -9,12 +9,12 @@ import { WalletContext } from "@/context/Wallet";
 
 import axios from "axios";
 import { connectWallet } from "@/utils/connectWallet";
+import { useQueryClient } from "@tanstack/react-query";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState<File | null>(null);
-  const [fileUrl, setFileUrl] = useState<string>("");
 
   const nftPrice = "1000";
   const {
@@ -26,6 +26,7 @@ const CreatePost = () => {
     setIsConnected,
   } = useContext(WalletContext);
   const [loading, setLoading] = useState<boolean>(false);
+  const qc = useQueryClient();
 
   async function uploadImageToPinata() {
     if (!image) return;
@@ -57,7 +58,6 @@ const CreatePost = () => {
 
     const imageFileUrl = await uploadImageToPinata();
     if (!imageFileUrl) return;
-    setFileUrl(imageFileUrl);
 
     const nftJSON = {
       name: title,
@@ -69,7 +69,20 @@ const CreatePost = () => {
     try {
       const response = await uploadJSONToIPFS(nftJSON);
       if (response.success === true) {
-        return response.pinataURL;
+        const fd = new FormData();
+
+        fd.append("description", content);
+        fd.append("image", imageFileUrl);
+        fd.append("name", title);
+        if (userAddress) {
+          fd.append("reportedBy", userAddress);
+        }
+        const res = await axios.post("/api/report", fd);
+
+        if (res.data.success) {
+          //toast.success("Report created successfully");
+          return response.pinataURL;
+        }
       }
     } catch (e) {
       console.log("Error uploading JSON metadata: ", e);
@@ -109,22 +122,10 @@ const CreatePost = () => {
       await transaction.wait();
 
       toast.success("NFT Listed Successfully");
-
-      const fd = new FormData();
-
-      console.log(fileUrl);
-
-      fd.append("description", content);
-      fd.append("image", fileUrl);
-      fd.append("name", title);
-      if (userAddress) {
-        fd.append("reportedBy", userAddress);
-      }
-      const res = await axios.post("/api/report", fd);
-
-      if (res.data.success) {
-        toast.success("Report created successfully");
-      }
+      qc.invalidateQueries({
+        queryKey: ["reports"],
+        exact: true,
+      });
     } catch (e) {
       toast.error("Failed to list NFT");
       console.log("Error listing NFT: ", e);
@@ -159,13 +160,13 @@ const CreatePost = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title"
-          className="text-white rounded-md p-2 border border-black"
+          className="text-black rounded-md p-2 border border-black"
         />
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Content"
-          className="text-white rounded-md p-2 border border-black"
+          className="text-black rounded-md p-2 border border-black"
         />
         <input
           onChange={(e) => {
@@ -179,7 +180,7 @@ const CreatePost = () => {
         />
         <button
           disabled={loading}
-          className="bg-white shadow-2xl z-50 cursor-pointer border border-black hover:bg-black/15 text-gray-800 font-bold p-4 rounded-md text-base flex items-center justify-center gap-2"
+          className="bg-white shadow-2xl z-50 cursor-pointer border border-black hover:bg-white/85 text-gray-800 font-bold p-4 rounded-md text-base flex items-center justify-center gap-2"
           onClick={listNFT}
         >
           {loading ? (

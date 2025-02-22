@@ -19,13 +19,11 @@ const reportSchema = new Schema(
       required: false,
     },
     upvotes: {
-      type: [Schema.Types.ObjectId],
-      ref: "User",
+      type: [String],
       default: [],
     },
     downvotes: {
-      type: [Schema.Types.ObjectId],
-      ref: "User",
+      type: [String],
       default: [],
     },
   },

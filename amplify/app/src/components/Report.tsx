@@ -3,6 +3,7 @@
 import { Report } from "@/app/(protected)/report/[id]/page";
 import { WalletContext } from "@/context/Wallet";
 import { connectWallet } from "@/utils/connectWallet";
+import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useContext } from "react";
 import toast from "react-hot-toast";
@@ -10,6 +11,7 @@ import toast from "react-hot-toast";
 const ReportDetailsComponent = ({ report }: { report: Report }) => {
   const { userAddress, setIsConnected, setUserAddress, setSigner } =
     useContext(WalletContext);
+  const qc = useQueryClient();
 
   const upvote = async () => {
     if (!userAddress) {
@@ -23,6 +25,10 @@ const ReportDetailsComponent = ({ report }: { report: Report }) => {
 
       if (res.data.success) {
         toast.success("Upvoted successfully");
+        qc.invalidateQueries({
+          queryKey: ["report", { id: report._id }],
+          exact: true,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -42,6 +48,10 @@ const ReportDetailsComponent = ({ report }: { report: Report }) => {
 
       if (res.data.success) {
         toast.success("Downvoted successfully");
+        qc.invalidateQueries({
+          queryKey: ["report", { id: report._id }],
+          exact: true,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -52,7 +62,8 @@ const ReportDetailsComponent = ({ report }: { report: Report }) => {
   return (
     <div className="flex gap-4 items-start">
       <div className="flex flex-col gap-4">
-        <button onClick={upvote}>
+        <button className="flex items-center gap-2" onClick={upvote}>
+          <span>{report.upvotes.length}</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -68,7 +79,8 @@ const ReportDetailsComponent = ({ report }: { report: Report }) => {
             />
           </svg>
         </button>
-        <button onClick={downvote}>
+        <button className="flex items-center gap-2" onClick={downvote}>
+          <span>{report.downvotes.length}</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
