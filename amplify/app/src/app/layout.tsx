@@ -22,9 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${roboto.className} antialiased min-h-screen bg-gradient-to-br from-blue-400 to-purple-500 text-white`}
-      >
+      <body className={`${roboto.className} antialiased text-white`}>
         <Toaster />
         <WalletContextProvider>{children}</WalletContextProvider>
       </body>

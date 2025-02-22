@@ -1,28 +1,12 @@
-import PrimaryButton from "@/components/PrimaryButton";
+import Hero from "@/components/Hero";
 import WalletConnectButton from "@/components/WalletConnectButton";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <>
-      <header className="container mx-auto px-4 py-6 flex justify-between items-center">
-        <div className="text-2xl font-bold">Amplify</div>
-      </header>
-
-      <main>
-        <section className="container mx-auto px-4 py-20 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            Empower Change, Report Truth
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-            Join the decentralized movement to expose injustices and crimes.
-            Your voice matters, and it&apos;s secure on the blockchain.
-          </p>
-          <div className="flex justify-center">
-            <WalletConnectButton />
-          </div>
-        </section>
-
+    <div>
+      <Hero />
+      <main className="bg-gradient-to-b from-[#151515] via-[#292929] to-[#151515]">
         <section className="container mx-auto px-4 py-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
             Why Choose Amplify?
@@ -70,7 +54,7 @@ export default function Home() {
                   "Your post is now live and immutable",
                 ].map((step, index) => (
                   <li key={index} className="flex items-start">
-                    <span className="bg-white text-purple-500 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4">
+                    <span className="bg-white text-black rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4">
                       {index + 1}
                     </span>
                     <span className="text-xl">{step}</span>
@@ -84,7 +68,7 @@ export default function Home() {
                 Be part of a global community dedicated to exposing injustices
                 and driving positive change. Your voice can make a difference.
               </p>
-              <PrimaryButton>Connect Wallet</PrimaryButton>
+              <WalletConnectButton />
             </div>
           </div>
         </section>
@@ -132,6 +116,6 @@ export default function Home() {
           © {new Date().getFullYear()} Amplify. All rights reserved.
         </div>
       </footer>
-    </>
+    </div>
   );
 }
