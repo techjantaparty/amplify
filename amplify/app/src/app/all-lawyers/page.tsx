@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { User, Star } from "lucide-react"; // Importing icons
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 interface Lawyer {
   name: string;
@@ -25,7 +26,7 @@ const LawyerPage = () => {
         setError("");
         const response = await axios.get<Lawyer[]>("/api/lawyers");
         setLawyers(response.data);
-      } catch (err) {
+      } catch {
         setError("Could not fetch lawyers");
       }
     };
@@ -98,9 +99,9 @@ const LawyerPage = () => {
                 {lawyer.description}
               </p>
               <Link href={`/lawyer/${lawyer._id}`}>
-                <button className="bg-white text-black mt-10 font-bold">
+                <Button className="bg-white hover:bg-gray-300 text-black mt-10 font-bold">
                   Learn More
-                </button>
+                </Button>
               </Link>
             </div>
           ))}

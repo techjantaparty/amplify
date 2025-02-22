@@ -54,7 +54,7 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json(
       {
-        message: hasDownvoted ? "Upvote removed" : "Upvote added",
+        message: hasDownvoted ? "Downvote removed" : "Downvote added",
         success: true,
         upvotes: updatedReport?.upvotes || [],
         downvotes: updatedReport?.downvotes || [],

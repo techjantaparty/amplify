@@ -24,7 +24,7 @@ const ReportDetailsComponent = ({ report }: { report: Report }) => {
       });
 
       if (res.data.success) {
-        toast.success("Upvoted successfully");
+        toast.success(res.data.message);
         qc.invalidateQueries({
           queryKey: ["report", { id: report._id }],
           exact: true,
@@ -47,7 +47,8 @@ const ReportDetailsComponent = ({ report }: { report: Report }) => {
       });
 
       if (res.data.success) {
-        toast.success("Downvoted successfully");
+        toast.success(res.data.message);
+
         qc.invalidateQueries({
           queryKey: ["report", { id: report._id }],
           exact: true,
