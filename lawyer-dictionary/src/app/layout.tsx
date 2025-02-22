@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import {Roboto_Mono} from "next/font/google"
 import "./globals.css";
 
 const geistSans = localFont({
@@ -12,6 +13,8 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+
+const roboto = Roboto_Mono({ weight: ["400"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Get Your Lawyer",
@@ -30,7 +33,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/logo.svg" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={roboto.className}
       >
         {children}
       </body>

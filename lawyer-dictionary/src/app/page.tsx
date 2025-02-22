@@ -3,10 +3,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { User, Star } from "lucide-react"; // Importing icons
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface Lawyer {
   name: string;
   experience: number;
+  _id: string;
   description: string;
   user_rating: {
     $numberDecimal: string;
@@ -32,18 +35,18 @@ const LawyerPage = () => {
   }, []);
 
   const renderRating = (rating: number) => {
-    const fullStars = Math.floor(rating); // Full stars
-    const halfStar = rating % 1 !== 0; // Check if there's a half star
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 !== 0;
 
     return (
       <>
         {[...Array(fullStars)].map((_, index) => (
-          <Star key={index} className="text-yellow-500" size={20} />
+          <Star key={index} className="text-[#C0C0C0]" size={20} />
         ))}
         {halfStar && (
-          <Star key="half" className="text-yellow-500 opacity-50" size={20} />
+          <Star key="half" className="text-[#C0C0C0] opacity-50" size={20} />
         )}
-        <span className="ml-2 text-yellow-500 font-semibold">
+        <span className="ml-2 text-[#C0C0C0] font-semibold">
           {rating.toFixed(1)}
         </span>
       </>
@@ -51,13 +54,13 @@ const LawyerPage = () => {
   };
 
   return (
-    <div className="bg-gray-800 text-white min-h-screen">
+    <div className="bg-black text-white min-h-screen">
       {/* Hero Section */}
-      <div className="flex flex-col items-center justify-center py-16 bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-800 text-center">
-        <h1 className="text-5xl font-bold mb-4 flex items-center justify-center">
-          <User className="mr-4 text-yellow-400" size={40} /> Lawyer Dictionary
+      <div className="flex flex-col items-center justify-center py-16 bg-gradient-to-r from-black via-gray-900 to-black text-center">
+        <h1 className="text-5xl font-bold mb-4 flex items-center justify-center bg-[#C0C0C0] text-black px-6 py-3 rounded-lg shadow-lg">
+          <User className="mr-4 text-black" size={40} /> Lawyer Dictionary
         </h1>
-        <p className="text-xl max-w-2xl mx-auto">
+        <p className="text-xl max-w-2xl mx-auto text-[#C0C0C0]">
           Discover detailed information about top-rated lawyers and find the
           best legal support for your needs.
         </p>
@@ -65,29 +68,25 @@ const LawyerPage = () => {
 
       {/* Available Lawyers Section */}
       <div className="container mx-auto p-6">
-        {error && <p className="text-red-600 mt-4 text-center">{error}</p>}
+        {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {lawyers.map((lawyer, index) => (
             <div
               key={index}
-              className="p-6 bg-gray-900 rounded-lg shadow-md border border-gray-700"
+              className="p-6 bg-gray-950 rounded-lg shadow-lg border border-[#C0C0C0]"
             >
-              <h2 className="text-2xl font-semibold text-yellow-400 flex items-center bg-indigo-600 p-2 rounded-md">
-                <User className="mr-2" />
+              <h2 className="text-2xl font-semibold text-black flex items-center bg-[#C0C0C0] px-4 py-2 rounded-md shadow-md">
+                <User className="mr-2 text-black" />
                 {lawyer.name}
               </h2>
-              <div className="text-gray-300 mt-3 flex items-center">
-                <p className="mr-4">
-                  <strong className="bg-purple-600 p-1 rounded-md">
-                    Experience:
-                  </strong>{" "}
+              <div className="text-gray-300 mt-3 flex flex-col space-y-2">
+                <p className="mr-4 text-white">
+                  <strong className="text-[#C0C0C0]">Experience:</strong>{" "}
                   {lawyer.experience} years
                 </p>
-                <p className="flex items-center">
-                  <strong className="bg-green-600 p-1 rounded-md">
-                    Rating:
-                  </strong>
+                <p className="flex items-center text-white">
+                  <strong className="text-[#C0C0C0]">Rating:</strong>
                   <span className="ml-2 flex">
                     {renderRating(
                       parseFloat(lawyer.user_rating.$numberDecimal)
@@ -95,12 +94,15 @@ const LawyerPage = () => {
                   </span>
                 </p>
               </div>
-              <p className="mt-4 text-gray-200">
-                <strong className="bg-blue-600 p-1 rounded-md">
-                  Description:
-                </strong>{" "}
+              <p className="mt-4 text-gray-300">
+                <strong className="text-[#C0C0C0]">Description:</strong>{" "}
                 {lawyer.description}
               </p>
+              <Link href={`/lawyer/${lawyer._id}`}>
+                <Button className="bg-white text-black mt-10 font-bold">
+                  Learn More
+                </Button>
+              </Link>
             </div>
           ))}
         </div>
