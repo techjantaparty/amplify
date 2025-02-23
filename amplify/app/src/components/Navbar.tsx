@@ -5,8 +5,6 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
-import { Button } from "./ui/button";
-import SecondaryButton from "./SecondaryButton";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -54,7 +52,6 @@ const Navbar = () => {
                 {link.name}
               </Link>
             </li>
-            
           ))}
         </ul>
       </div>
