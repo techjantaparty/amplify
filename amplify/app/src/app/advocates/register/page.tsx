@@ -40,7 +40,7 @@ const SignupPage = () => {
       fd.append("experience", formData.experience);
 
       const response = await axios.post("/api/advocate/signup", fd);
-      if (response.data.success) router.push("/advocates/login");
+      if (response.data.success) router.replace("/advocates/login");
     } catch (e) {
       if (isAxiosError(e)) {
         toast.error(e.response?.data.message || "Signup failed. Try again.");

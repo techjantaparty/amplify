@@ -27,7 +27,7 @@ const LoginPage = () => {
       fd.append("email", formData.email);
       fd.append("password", formData.password);
       const response = await axios.post("/api/advocate/login", fd);
-      if (response.data.success) router.push("/advocates/dashboard");
+      if (response.data.success) router.replace("/advocates/post-content");
     } catch (e) {
       if (isAxiosError(e)) {
         toast.error(
