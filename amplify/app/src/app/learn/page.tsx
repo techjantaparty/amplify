@@ -1,19 +1,41 @@
 "use client";
+import axios from "axios";
 import React, { useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 const ResponseGeneratorPage: React.FC = () => {
-  const [question, setQuestion] = useState<string>("");
-  const [answer, setAnswer] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [generatingAnswer, setGeneratingAnswer] = useState(false);
 
-  const handleGenerateAnswer = async () => {
-    if (!question) {
-      alert("Please enter a question!");
-      return;
+  async function generateAnswer(e: { preventDefault: () => void }) {
+    setGeneratingAnswer(true);
+    e.preventDefault();
+    setAnswer("Generating Response...");
+    try {
+      const prompt = `
+            You are an expert of Indian Constitution and you have been asked to explain the following question from the Indian constitutional and legal point of view. Answer in layman term. Answer in brief but keep the concept cleared
+            ${question}
+        `;
+      console.log(prompt);
+
+      const response = await axios({
+        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.NEXT_PUBLIC_GOOGLE_GENERATIVE_AI_API_KEY}`,
+        method: "post",
+        data: {
+          contents: [{ parts: [{ text: prompt }] }],
+        },
+      });
+      setAnswer(
+        response["data"]["candidates"][0]["content"]["parts"][0]["text"]
+      );
+    } catch (error) {
+      console.log(error);
+      setAnswer("Sorry - Something went wrong. Please try again!");
     }
 
-    setLoading(true);
-  };
+    setGeneratingAnswer(false);
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-[#C0C0C0] flex justify-center items-center p-6">
@@ -40,11 +62,11 @@ const ResponseGeneratorPage: React.FC = () => {
           {/* Generate Answer Button */}
           <div className="text-center mt-4">
             <button
-              onClick={handleGenerateAnswer}
+              onClick={generateAnswer}
               className="py-3 px-6 rounded-lg bg-[#C0C0C0] text-black font-semibold hover:bg-white transition duration-300"
-              disabled={loading}
+              disabled={generatingAnswer}
             >
-              {loading ? "Generating..." : "Generate Answer"}
+              {generatingAnswer ? "Generating..." : "Generate Answer"}
             </button>
           </div>
 
@@ -54,10 +76,12 @@ const ResponseGeneratorPage: React.FC = () => {
               Generated Answer
             </label>
             <div className="bg-gray-800 text-white p-4 rounded-lg border border-[#C0C0C0] min-h-[150px]">
-              {loading ? (
+              {generatingAnswer ? (
                 <div className="text-center">Generating response...</div>
               ) : (
-                <p>{answer || "Your generated answer will appear here."}</p>
+                <ReactMarkdown>
+                  {answer || "Your generated answer will appear here."}
+                </ReactMarkdown>
               )}
             </div>
           </div>
