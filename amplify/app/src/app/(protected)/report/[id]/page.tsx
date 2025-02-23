@@ -21,12 +21,7 @@ export interface Report {
 const ReportDetails = () => {
   const { id } = useParams();
 
-  const {
-    isLoading,
-    isError,
-    status,
-    data: report,
-  } = useQuery({
+  const { isLoading, data: report } = useQuery({
     queryKey: ["report", { id }],
     queryFn: async () => {
       const res = await axios.get(`/api/report/${id}`);
