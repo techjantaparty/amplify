@@ -11,7 +11,6 @@ const navLinks = [
   { name: "Services", path: "#services" },
   { name: "Advocates", path: "/all-lawyers" },
   { name: "Learn", path: "/learn" },
-  { nane: "Agents", path: "https://tjp-lawai.streamlit.app" },
 ];
 
 const Navbar = () => {
@@ -54,6 +53,15 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
+          <li>
+            <Link
+              className="block px-4 py-2 rounded transition-all duration-300 hover:bg-gray-800"
+              href={"https://tjp-lawai.streamlit.app"}
+              target="_blank"
+            >
+              Agents
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
