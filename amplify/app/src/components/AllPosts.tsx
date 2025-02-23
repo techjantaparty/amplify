@@ -6,41 +6,7 @@ import { Report } from "@/app/(protected)/report/[id]/page";
 import { useQuery } from "@tanstack/react-query";
 
 const AllPosts = () => {
-  /*async function getNFTitems() {
-    const itemsArray = [];
-    if (!signer) return;
-
-    const contract = new ethers.Contract(
-      marketplace.address,
-      marketplace.abi,
-      signer
-    );
-
-    const transaction = await contract.getAllListedNFTs();
-
-    for (const i of transaction) {
-      const tokenId = parseInt(i.tokenId);
-      const tokenURI = await contract.tokenURI(tokenId);
-      const meta = (await axios.get(tokenURI)).data;
-
-      const item = {
-        tokenId: i.tokenId,
-        image: meta.image,
-        name: meta.name,
-        description: meta.description,
-      };
-
-      itemsArray.push(item);
-    }
-    return itemsArray as Post[];
-  }*/
-
-  const {
-    isLoading,
-    isError,
-    status,
-    data: reports,
-  } = useQuery({
+  const { isLoading, data: reports } = useQuery({
     queryKey: ["reports"],
     queryFn: async () => {
       const res = await axios.get(`/api/report`);

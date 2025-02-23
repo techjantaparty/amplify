@@ -126,6 +126,9 @@ const CreatePost = () => {
         queryKey: ["reports"],
         exact: true,
       });
+      setTitle("");
+      setContent("");
+      setImage(null);
     } catch (e) {
       toast.error("Failed to list NFT");
       console.log("Error listing NFT: ", e);

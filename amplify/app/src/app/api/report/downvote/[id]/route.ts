@@ -1,5 +1,5 @@
 import { ReportModel } from "@/models/Report";
-import { connectDB } from "@/utils/db";
+import { connectDB } from "@/utils/dbTest";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
