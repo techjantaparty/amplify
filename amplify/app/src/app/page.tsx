@@ -74,46 +74,48 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="container mx-auto px-4 py-8 mt-16 border-t border-white border-opacity-20">
-        <div className="grid md:grid-cols-3 gap-8">
-          <div>
-            <h4 className="text-xl font-semibold mb-4">Amplify</h4>
-            <p>
-              Empowering voices, exposing truths, and driving change through
-              decentralized reporting.
-            </p>
+      <footer className="px-4 py-8 border-t border-white border-opacity-20 bg-black">
+        <div className="max-w-screen-xl mx-auto w-full">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div>
+              <h4 className="text-xl font-semibold mb-4">Amplify</h4>
+              <p>
+                Empowering voices, exposing truths, and driving change through
+                decentralized reporting.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-xl font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-2">
+                {["About", "How It Works", "FAQs", "Contact"].map(
+                  (link, index) => (
+                    <li key={index}>
+                      <Link href="#" className="hover:underline">
+                        {link}
+                      </Link>
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-xl font-semibold mb-4">Connect</h4>
+              <ul className="space-y-2">
+                {["Twitter", "Telegram", "Discord", "GitHub"].map(
+                  (social, index) => (
+                    <li key={index}>
+                      <Link href="#" className="hover:underline">
+                        {social}
+                      </Link>
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
           </div>
-          <div>
-            <h4 className="text-xl font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              {["About", "How It Works", "FAQs", "Contact"].map(
-                (link, index) => (
-                  <li key={index}>
-                    <Link href="#" className="hover:underline">
-                      {link}
-                    </Link>
-                  </li>
-                )
-              )}
-            </ul>
+          <div className="mt-8 text-center text-sm">
+            © {new Date().getFullYear()} Amplify. All rights reserved.
           </div>
-          <div>
-            <h4 className="text-xl font-semibold mb-4">Connect</h4>
-            <ul className="space-y-2">
-              {["Twitter", "Telegram", "Discord", "GitHub"].map(
-                (social, index) => (
-                  <li key={index}>
-                    <Link href="#" className="hover:underline">
-                      {social}
-                    </Link>
-                  </li>
-                )
-              )}
-            </ul>
-          </div>
-        </div>
-        <div className="mt-8 text-center text-sm">
-          © {new Date().getFullYear()} Amplify. All rights reserved.
         </div>
       </footer>
     </div>
