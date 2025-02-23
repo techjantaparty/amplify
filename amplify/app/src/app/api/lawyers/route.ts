@@ -1,9 +1,8 @@
-
 import Lawyer from "@/models/Lawyer";
 import { connectDB } from "@/utils/dbTest";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   await connectDB();
   try {
     // Fetch all lawyers from the database
