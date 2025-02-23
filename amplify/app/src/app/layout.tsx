@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { WalletContextProvider } from "@/context/Wallet";
 import { Toaster } from "react-hot-toast";
+import Navbar from "@/components/Navbar";
 
 const roboto = localFont({
   src: "./fonts/RobotoMonoVariable.ttf",
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.className} antialiased text-white`}>
         <Toaster />
+        <Navbar />
         <WalletContextProvider>{children}</WalletContextProvider>
       </body>
     </html>

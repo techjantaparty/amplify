@@ -7,7 +7,7 @@ export default function Home() {
     <div>
       <Hero />
       <main className="bg-gradient-to-b from-[#151515] via-[#292929] to-[#151515]">
-        <section className="container mx-auto px-4 py-16">
+        <section id="services" className="container mx-auto px-4 py-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
             Why Choose Amplify?
           </h2>
