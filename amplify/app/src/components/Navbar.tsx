@@ -13,6 +13,7 @@ const navLinks = [
   { name: "Services", path: "#services" },
   { name: "Advocates", path: "/all-lawyers" },
   { name: "Learn", path: "/learn" },
+  { nane: "Agents", path: "https://tjp-lawai.streamlit.app" },
 ];
 
 const Navbar = () => {
