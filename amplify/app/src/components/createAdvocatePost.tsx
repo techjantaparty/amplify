@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { FileText, BookOpen, List } from "lucide-react"; // Icons for input fields
+import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const PostContentForm = () => {
-  const router = useRouter();
   const [formData, setFormData] = useState({
     title: "",
     content: "",
@@ -14,6 +14,7 @@ const PostContentForm = () => {
   });
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const qc = useQueryClient();
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -29,10 +30,30 @@ const PostContentForm = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("/api/posts", formData);
-      router.push("/dashboard");
+      const fd = new FormData();
+      fd.append("title", formData.title);
+      fd.append("content", formData.content);
+      fd.append("genre", formData.genre);
+      fd.append("lawyer", localStorage.getItem("currentLawyer") as string);
+
+      const response = await axios.post("/api/advocate/post", fd);
+      if (response.data.success) {
+        qc.invalidateQueries({
+          queryKey: ["lawyerPosts"],
+          exact: true,
+        });
+        setFormData({
+          title: "",
+          content: "",
+          genre: "Law Learnings",
+        });
+      }
     } catch (err) {
-      setError("Failed to post content. Try again.");
+      if (isAxiosError(err)) {
+        toast.error(err.response?.data.message || "Post failed. Try again.");
+      } else {
+        toast.error("Post failed. Try again.");
+      }
     } finally {
       setLoading(false);
     }

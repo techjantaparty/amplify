@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(
-      { message: "Login Successful", success: true },
+      { message: "Login Successful", success: true, lawyer: lawyer._id },
       { status: 201 }
     );
   } catch (error) {

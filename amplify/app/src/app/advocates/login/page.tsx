@@ -27,7 +27,10 @@ const LoginPage = () => {
       fd.append("email", formData.email);
       fd.append("password", formData.password);
       const response = await axios.post("/api/advocate/login", fd);
-      if (response.data.success) router.replace("/advocates/post-content");
+      if (response.data.success) {
+        router.replace("/advocates/post-content");
+        localStorage.setItem("currentLawyer", response.data.lawyer);
+      }
     } catch (e) {
       if (isAxiosError(e)) {
         toast.error(
