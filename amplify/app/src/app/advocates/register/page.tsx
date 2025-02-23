@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { User, Lock, Mail, Phone, FileText, Briefcase } from "lucide-react"; // Icons for input fields
+import toast from "react-hot-toast";
 
 const SignupPage = () => {
   const router = useRouter();
@@ -40,8 +41,12 @@ const SignupPage = () => {
 
       const response = await axios.post("/api/advocate/signup", fd);
       if (response.data.success) router.push("/advocates/login");
-    } catch {
-      setError("Signup failed. Try again.");
+    } catch (e) {
+      if (isAxiosError(e)) {
+        toast.error(e.response?.data.message || "Signup failed. Try again.");
+      } else {
+        toast.error("Signup failed. Try again.");
+      }
     } finally {
       setLoading(false);
     }

@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { User, Lock } from "lucide-react"; // Icons for input fields
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -27,8 +28,14 @@ const LoginPage = () => {
       fd.append("password", formData.password);
       const response = await axios.post("/api/advocate/login", fd);
       if (response.data.success) router.push("/advocates/dashboard");
-    } catch {
-      setError("Invalid email or password. Try again.");
+    } catch (e) {
+      if (isAxiosError(e)) {
+        toast.error(
+          e.response?.data.message || "Invalid email or password. Try again."
+        );
+      } else {
+        toast.error("Invalid email or password. Try again.");
+      }
     } finally {
       setLoading(false);
     }

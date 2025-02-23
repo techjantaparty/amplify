@@ -18,6 +18,12 @@ export async function POST(req: NextRequest) {
       experience: fd.get("experience") as string,
     };
 
+    const existingLawyer = await Lawyer.findOne({ email: advocate.email });
+
+    if (existingLawyer) {
+      throw new Error("Email already exists");
+    }
+
     const salt = await bcrypt.genSalt(7);
     const hashedPassword = await bcrypt.hash(advocate.password, salt);
 
