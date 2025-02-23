@@ -89,11 +89,42 @@ const CreatePost = () => {
     }
   }
 
+  async function checkContent(content: string, title: string) {
+    const fd = new FormData();
+    fd.append("content", content);
+    fd.append("title", title);
+
+    try {
+      setLoading(true);
+      const res = await axios.post("/api/check-content", fd);
+
+      if (res.data.success) {
+        return res.data.result;
+      }
+    } catch {
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function precheck() {
+    const res = await checkContent(title, content);
+
+    if (res) {
+      toast.error("Content is inappropriate");
+      return;
+    }
+
+    await listNFT();
+  }
+
   async function listNFT() {
     if (!isConnected) {
       await connectWallet(setIsConnected, setUserAddress, setSigner);
       return;
     }
+
     setLoading(true);
     try {
       const metadataURLPromise = uploadMetadataToIPFS();
@@ -184,7 +215,7 @@ const CreatePost = () => {
         <button
           disabled={loading}
           className="bg-white shadow-2xl z-50 cursor-pointer border border-black hover:bg-white/85 text-gray-800 font-bold p-4 rounded-md text-base flex items-center justify-center gap-2"
-          onClick={listNFT}
+          onClick={precheck}
         >
           {loading ? (
             <LoaderIcon className="size-5 text-black" />
