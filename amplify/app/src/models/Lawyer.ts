@@ -16,6 +16,18 @@ const LawyerSchema = new mongoose.Schema(
     },
     user_rating: {
       type: mongoose.Types.Decimal128,
+      required: false,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
       required: true,
     },
   },

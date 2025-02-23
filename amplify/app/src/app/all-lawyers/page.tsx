@@ -5,16 +5,7 @@ import axios from "axios";
 import { User, Star } from "lucide-react"; // Importing icons
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-
-interface Lawyer {
-  name: string;
-  experience: number;
-  _id: string;
-  description: string;
-  user_rating: {
-    $numberDecimal: string;
-  };
-}
+import { Lawyer } from "../lawyer/[id]/page";
 
 const LawyerPage = () => {
   const [lawyers, setLawyers] = useState<Lawyer[]>([]);

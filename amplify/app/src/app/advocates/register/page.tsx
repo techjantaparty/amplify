@@ -30,9 +30,17 @@ const SignupPage = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("/api/signup", formData);
-      router.push("/dashboard");
-    } catch (err) {
+      const fd = new FormData();
+      fd.append("name", formData.name);
+      fd.append("email", formData.email);
+      fd.append("phone", formData.phone);
+      fd.append("password", formData.password);
+      fd.append("description", formData.description);
+      fd.append("experience", formData.experience);
+
+      const response = await axios.post("/api/advocate/signup", fd);
+      if (response.data.success) router.push("/advocates/login");
+    } catch {
       setError("Signup failed. Try again.");
     } finally {
       setLoading(false);

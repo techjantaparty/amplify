@@ -14,7 +14,7 @@ export async function connectDB() {
 
   try {
     const connectionInstance = await mongoose.connect(
-      process.env.MONGO_URI + "/Lawyers" || ""
+      process.env.MONGODB_URI + "/Lawyers" || ""
     );
     connection.isConnected = connectionInstance.connections[0].readyState;
   } catch (error) {

@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import axios from "axios";
-import { User, Star } from "lucide-react"; // Importing icons
+import { User } from "lucide-react"; // Importing icons
 import Link from "next/link";
 
-interface Lawyer {
+export interface Lawyer {
+  _id: string;
   name: string;
   experience: number;
   description: string;
@@ -19,7 +20,6 @@ interface Lawyer {
 
 const LawyerPage = () => {
   const { id } = useParams();
-  const router = useRouter();
   const [lawyer, setLawyer] = useState<Lawyer | null>(null);
   const [error, setError] = useState<string>("");
 
@@ -34,7 +34,7 @@ const LawyerPage = () => {
       setError("");
       const response = await axios.get(`/api/lawyer?id=${lawyerId}`);
       setLawyer(response.data.lawyer);
-    } catch (err) {
+    } catch {
       setLawyer(null);
       setError("Lawyer not found");
     }

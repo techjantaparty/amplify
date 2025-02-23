@@ -22,9 +22,12 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("/api/login", formData);
-      router.push("/dashboard");
-    } catch (err) {
+      const fd = new FormData();
+      fd.append("email", formData.email);
+      fd.append("password", formData.password);
+      const response = await axios.post("/api/advocate/login", fd);
+      if (response.data.success) router.push("/advocates/dashboard");
+    } catch {
       setError("Invalid email or password. Try again.");
     } finally {
       setLoading(false);
@@ -82,8 +85,11 @@ const LoginPage = () => {
         </form>
 
         <p className="text-gray-400 text-center mt-4">
-          Don't have an account?{" "}
-          <a href="/advocates/register" className="text-[#C0C0C0] underline hover:text-white">
+          Don&apos;t have an account?{" "}
+          <a
+            href="/advocates/register"
+            className="text-[#C0C0C0] underline hover:text-white"
+          >
             Sign Up
           </a>
         </p>
