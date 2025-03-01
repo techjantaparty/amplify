@@ -4,6 +4,11 @@ require("dotenv").config();
 module.exports = {
   solidity: "0.8.24",
   networks: {
+    edu: {
+      url: process.env.EDU_URL,
+      chainId: 656476,
+      accounts: [process.env.PRIVATE_KEY],
+    },
     fuji: {
       url: process.env.FUJI_URL,
       chainId: 43113,
@@ -11,5 +16,3 @@ module.exports = {
     },
   },
 };
-
-// address = 0x0E1212E589f4B549443711E703599346EB7771A7
