@@ -2,6 +2,18 @@
 import { BrowserProvider } from "ethers";
 import toast from "react-hot-toast";
 
+const EDU_TESTNET_PARAMS = {
+  chainId: "0xa045c", // Hexadecimal of 656476 (verified from ChainList)
+  chainName: "Edu Chain Testnet",
+  nativeCurrency: {
+    name: "EduCoin",
+    symbol: "EDU",
+    decimals: 18,
+  },
+  rpcUrls: ["https://rpc.open-campus-codex.gelato.digital"], // Verified RPC URL
+  blockExplorerUrls: ["https://edu-chain-testnet.blockscout.com"], // Verified Explorer URL
+};
+
 export const connectWallet = async (
   setIsConnected: any,
   setUserAddress: any,
@@ -22,10 +34,32 @@ export const connectWallet = async (
     setIsConnected(true);
 
     const { chainId } = await provider.getNetwork();
-    const sepoliaNetworkId = "43113";
+    const eduTestnetId = "656476";
 
-    if (chainId.toString() !== sepoliaNetworkId) {
-      toast.error("Please Switch To Fuji Network");
+    if (parseInt(chainId.toString(), 16) !== parseInt(eduTestnetId)) {
+      try {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: EDU_TESTNET_PARAMS.chainId }],
+        });
+        toast.success("Switched To Edu Chain Testnet");
+      } catch (switchError: any) {
+        if (switchError.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: "wallet_addEthereumChain",
+              params: [EDU_TESTNET_PARAMS],
+            });
+            toast.success("Edu Chain Testnet Added and Switched");
+          } catch (addError) {
+            toast.error("Failed to Add Edu Chain Testnet");
+            console.error("Error adding network:", addError);
+          }
+        } else {
+          toast.error("Failed to Switch Network");
+          console.error("Network switch error:", switchError);
+        }
+      }
     } else {
       toast.success("Wallet Connected");
     }
