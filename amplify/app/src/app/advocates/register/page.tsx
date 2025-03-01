@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios, { isAxiosError } from "axios";
 import { User, Lock, Mail, Phone, FileText, Briefcase } from "lucide-react"; // Icons for input fields
@@ -51,6 +51,13 @@ const SignupPage = () => {
       setLoading(false);
     }
   };
+
+  const lawyer = localStorage.getItem("currentLawyer");
+
+  useEffect(() => {
+    if (!lawyer) return;
+    router.replace("/advocates/post-content");
+  }, [lawyer]);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white">

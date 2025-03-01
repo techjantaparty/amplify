@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 import Image from "next/image";
 
 const navLinks = [
-  { name: "Home", path: "/" },
+  { name: "Home", path: "/home" },
   { name: "Services", path: "#services" },
   { name: "Advocates", path: "/all-lawyers" },
   { name: "Learn", path: "/learn" },
@@ -27,8 +27,8 @@ const Navbar = () => {
   return (
     <nav className="bg-[#1D1D1D] text-white p-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="/">
-          <Image src="/logo.svg" height={150} width={150} alt="logo" />
+        <Link href="">
+          <Image src="/unmask.png" height={20} width={100} alt="logo" />
         </Link>
         <button
           className="md:hidden p-2 rounded focus:outline-none"

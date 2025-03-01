@@ -6,10 +6,11 @@ export default function Home() {
   return (
     <div>
       <Hero />
-      <main className="bg-gradient-to-b from-[#151515] via-[#292929] to-[#151515]">
+      <main className="relative bg-gradient-to-b from-[#151515] via-[#292929] to-[#151515]">
+        <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#1B1B1B] via-[#1B1B1B] to-transparent backdrop-blur-md"></div>
         <section id="services" className="container mx-auto px-4 py-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-            Why Choose Amplify?
+            Why Choose Unmask?
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -78,7 +79,7 @@ export default function Home() {
         <div className="max-w-screen-xl mx-auto w-full">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
-              <h4 className="text-xl font-semibold mb-4">Amplify</h4>
+              <h4 className="text-xl font-semibold mb-4">Unmask</h4>
               <p>
                 Empowering voices, exposing truths, and driving change through
                 decentralized reporting.
@@ -114,7 +115,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-8 text-center text-sm">
-            © {new Date().getFullYear()} Amplify. All rights reserved.
+            © {new Date().getFullYear()} Unmask. All rights reserved.
           </div>
         </div>
       </footer>

@@ -59,6 +59,9 @@ export async function GET() {
       {
         $unwind: "$lawyerDetails", // Convert lawyerDetails array to an object (optional)
       },
+      {
+        $sort: { createdAt: -1 },
+      },
     ]);
 
     console.log(lawyerPosts);

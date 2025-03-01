@@ -36,7 +36,7 @@ const LawyerPostShowcase = () => {
   return (
     posts &&
     posts.length !== 0 && (
-      <div className="max-w-4xl w-full mx-auto space-y-6">
+      <div className="max-w-5xl w-full mx-auto space-y-6">
         {posts.map((post) => {
           let genreIcon;
 

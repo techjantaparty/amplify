@@ -60,7 +60,7 @@ const PostContentForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center mb-8 bg-gradient-to-br from-black via-gray-900 to-black text-white">
+    <div className="flex justify-center items-center mb-8 text-white sticky top-6">
       <div className="container mx-auto p-8 bg-gray-950 rounded-xl shadow-2xl w-full max-w-md border border-[#C0C0C0]">
         <h1 className="text-3xl font-bold text-center mb-6 bg-[#C0C0C0] text-black px-6 py-3 rounded-lg shadow-md border border-gray-700">
           Create a Post
