@@ -12,6 +12,7 @@ const LoginPage = () => {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [lawyer, setLawyer] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,7 +45,11 @@ const LoginPage = () => {
     }
   };
 
-  const lawyer = localStorage.getItem("currentLawyer");
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const l = localStorage.getItem("currentLawyer");
+    if (l) setLawyer(l);
+  }, []);
 
   useEffect(() => {
     if (!lawyer) return;
