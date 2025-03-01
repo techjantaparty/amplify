@@ -20,7 +20,7 @@ const ResponseGeneratorPage: React.FC = () => {
       console.log(prompt);
 
       const response = await axios({
-        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.NEXT_PUBLIC_GOOGLE_GENERATIVE_AI_API_KEY}`,
+        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.NEXT_PUBLIC_GOOGLE_GENERATIVE_AI_API_KEY}`,
         method: "post",
         data: {
           contents: [{ parts: [{ text: prompt }] }],
