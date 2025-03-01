@@ -27,9 +27,14 @@ const Navbar = () => {
   return (
     <nav className="bg-[#1D1D1D] text-white p-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="">
-          <Image src="/unmask.png" height={20} width={100} alt="logo" />
-        </Link>
+        <div className="flex items-center ">
+          <Link href="/">
+            <Image src="/favicon.png" height={20} width={60} alt="logo" />
+          </Link>
+          <Link href="/">
+            <Image src="/unmask.png" height={20} width={100} alt="logo" />
+          </Link>
+        </div>
         <button
           className="md:hidden p-2 rounded focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}

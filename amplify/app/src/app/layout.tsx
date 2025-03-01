@@ -23,6 +23,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
+      </head>
       <body className={`${roboto.className} antialiased text-white`}>
         <Toaster />
         <Navbar />
