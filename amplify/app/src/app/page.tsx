@@ -1,10 +1,20 @@
 import Hero from "@/components/Hero";
+import { Particles } from "@/components/magicui/particles";
 import WalletConnectButton from "@/components/WalletConnectButton";
 import Link from "next/link";
 
 export default function Home() {
+  const color = "#ffffff";
+
   return (
-    <div>
+    <div className="relative overflow-hidden">
+      <Particles
+        className="absolute inset-0 z-50"
+        quantity={100}
+        ease={80}
+        color={color}
+        refresh
+      />
       <Hero />
       <main className="relative bg-gradient-to-b from-[#151515] via-[#292929] to-[#151515]">
         <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#1B1B1B] via-[#1B1B1B] to-transparent backdrop-blur-md"></div>

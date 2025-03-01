@@ -34,7 +34,7 @@ const AllPosts = () => {
   return (
     reports.length !== 0 && (
       <div className="col-span-2 w-full">
-        <div className="flex gap-4 flex-wrap">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {reports?.map((report) => {
             return <PostItem report={report} key={report._id} />;
           })}

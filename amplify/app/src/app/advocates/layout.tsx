@@ -7,7 +7,9 @@ const queryClient = new QueryClient();
 
 const layout = ({ children }: { children: ReactNode }) => {
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <div className="bg-gradient-to-br from-black via-gray-900 to-[#C0C0C0]">
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </div>
   );
 };
 

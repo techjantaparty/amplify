@@ -48,7 +48,7 @@ export async function GET() {
   await connectDB();
 
   try {
-    const reports = await ReportModel.find();
+    const reports = await ReportModel.find().sort({ createdAt: -1 });
 
     return NextResponse.json(
       { message: "Reports fetched successfully", reports, success: true },

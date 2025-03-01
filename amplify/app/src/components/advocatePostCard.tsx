@@ -5,7 +5,7 @@ import axios from "axios";
 import { User, Star, BookOpen, Landmark, Scale } from "lucide-react"; // Icons
 import { LoaderIcon } from "react-hot-toast";
 
-interface Post {
+export interface Post {
   _id: string;
   title: string;
   content: string;
